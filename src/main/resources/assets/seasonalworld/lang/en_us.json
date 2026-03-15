@@ -1,0 +1,7 @@
+{
+  "season.seasonalworld.spring": "Spring",
+  "season.seasonalworld.summer": "Summer",
+  "season.seasonalworld.autumn": "Autumn",
+  "season.seasonalworld.winter": "Winter",
+  "message.seasonalworld.season_changed": "Season changed to %s"
+}

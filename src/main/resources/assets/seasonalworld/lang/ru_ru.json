@@ -1,0 +1,7 @@
+{
+  "season.seasonalworld.spring": "Весна",
+  "season.seasonalworld.summer": "Лето",
+  "season.seasonalworld.autumn": "Осень",
+  "season.seasonalworld.winter": "Зима",
+  "message.seasonalworld.season_changed": "Сезон изменился: %s"
+}
