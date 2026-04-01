@@ -1,0 +1,47 @@
+@startuml "Sequence Diagram - Изменение поручения"
+
+actor "Делопроизводитель" as Clerk
+participant "Интерфейс" as UI
+participant "Сервис\nдокументов" as Service
+database "БД" as DB
+
+Clerk -> UI : Выбор документа и задачи
+activate UI
+
+UI -> Service : get_task(task_id)
+activate Service
+Service -> DB : SELECT task
+activate DB
+DB --> Service : task_data
+deactivate DB
+Service --> UI : Информация о задаче
+deactivate Service
+
+UI --> Clerk : Отображение текущих данных
+
+alt Перенос срока исполнения
+    Clerk -> UI : Ввод нового срока
+    UI -> Service : modify_task(task_id, new_deadline)
+    activate Service
+    Service -> DB : UPDATE task SET deadline = new_deadline
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service --> UI : Срок обновлён
+    deactivate Service
+else Назначение нового исполнителя
+    Clerk -> UI : Выбор нового исполнителя
+    UI -> Service : modify_task(task_id, new_executor_id)
+    activate Service
+    Service -> DB : UPDATE task SET executor_id = new_executor_id
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service --> UI : Исполнитель обновлён
+    deactivate Service
+end
+
+UI --> Clerk : Подтверждение изменений
+deactivate UI
+
+@enduml

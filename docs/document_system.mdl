@@ -1,0 +1,754 @@
+
+(object Petal
+    version    	50
+    _written   	"Rose 8.0.0303.1400"
+    charSet    	0)
+
+(object Design "Logical View"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"IDL"
+	    name       	"uuid"
+	    value      	(value Text "DCE:d2570410-0396-11e0-0000-005cf4691c4c:1")))
+    quid       	"00000001"
+    defaults   	(object defaults
+	rightMargin 	0.250000
+	leftMargin 	0.250000
+	topMargin  	0.250000
+	bottomMargin 	0.500000
+	pageOverlap 	0.250000
+	clipIconLabels 	TRUE
+	autoResize 	TRUE
+	snapToGrid 	TRUE
+	gridX      	16
+	gridY      	16
+	defaultFont 	(object Font
+	    size       	10
+	    face       	"Arial"
+	    bold       	FALSE
+	    italics    	FALSE
+	    underline  	FALSE
+	    strike     	FALSE
+	    color      	0
+	    default_color 	TRUE)
+	showMessageNum 	1
+	showClassOfObject 	TRUE
+	notation   	"Unified")
+    root_usecase_package 	(object Class_Category "Use Case View"
+	quid       	"00000002"
+	exportControl 	"Public"
+	global     	TRUE
+	logical_models 	(list unit_reference_list
+	    (object Class "Делопроизводитель"
+		quid       	"A0000001"
+		stereotype 	"Actor"
+		exportControl 	"Public")
+	    (object Class "Руководитель"
+		quid       	"A0000002"
+		stereotype 	"Actor"
+		exportControl 	"Public")
+	    (object Class "Контролёр"
+		quid       	"A0000003"
+		stereotype 	"Actor"
+		exportControl 	"Public")
+	    (object UseCase "UC1: Регистрация документа"
+		quid       	"UC000001"
+		exportControl 	"Public"
+		documentation 	"Регистрация входящей, исходящей или внутренней деловой документации в системе. Включает заполнение метаданных документа, выбор корреспондента, назначение задач и исполнителей.")
+	    (object UseCase "UC2: Изменение поручения"
+		quid       	"UC000002"
+		exportControl 	"Public"
+		documentation 	"Внесение изменений в ходе исполнения поручений: перенос сроков исполнения, назначение новых исполнителей.")
+	    (object UseCase "UC2.1: Перенос срока исполнения"
+		quid       	"UC000003"
+		exportControl 	"Public"
+		documentation 	"Изменение даты крайнего срока исполнения задачи.")
+	    (object UseCase "UC2.2: Назначение нового исполнителя"
+		quid       	"UC000004"
+		exportControl 	"Public"
+		documentation 	"Переназначение задачи другому сотруднику предприятия.")
+	    (object UseCase "UC3: Отчёт по просроченным документам"
+		quid       	"UC000005"
+		exportControl 	"Public"
+		documentation 	"На заданную дату формируется список документов (номер, название, тип), у которых истекли сроки выполнения задач.")
+	    (object UseCase "UC4: Уведомления о приближающихся сроках"
+		quid       	"UC000006"
+		exportControl 	"Public"
+		documentation 	"Выдача уведомлений на заданную дату о приближающихся сроках исполнения задач (тех, у которых дата исполнения более заданной на определённое количество дней). Указываются: номер документа, название документа, название задачи, ФИО и должность исполнителя.")
+	    (object UseCase "UC5: Управление корреспондентами"
+		quid       	"UC000007"
+		exportControl 	"Public"
+		documentation 	"Добавление и редактирование корреспондентов: внутренних (отдел, должностное лицо) и внешних (код, название организации).")
+	    (object UseCase "UC6: Управление сотрудниками"
+		quid       	"UC000008"
+		exportControl 	"Public"
+		documentation 	"Добавление и редактирование информации о сотрудниках предприятия: ФИО, должность, телефон, электронный адрес.")
+	    (object Association "Clerk_RegisterDoc"
+		quid       	"AS000001"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$1"
+			quid       	"AS000001A"
+			supplier   	"Use Case View::Делопроизводитель"
+			quidu      	"A0000001")
+		    (object Role "$UNNAMED$2"
+			quid       	"AS000001B"
+			supplier   	"Use Case View::UC1: Регистрация документа"
+			quidu      	"UC000001")))
+	    (object Association "Clerk_ModifyTask"
+		quid       	"AS000002"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$3"
+			quid       	"AS000002A"
+			supplier   	"Use Case View::Делопроизводитель"
+			quidu      	"A0000001")
+		    (object Role "$UNNAMED$4"
+			quid       	"AS000002B"
+			supplier   	"Use Case View::UC2: Изменение поручения"
+			quidu      	"UC000002")))
+	    (object Association "Clerk_ManageCorrespondents"
+		quid       	"AS000003"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$5"
+			quid       	"AS000003A"
+			supplier   	"Use Case View::Делопроизводитель"
+			quidu      	"A0000001")
+		    (object Role "$UNNAMED$6"
+			quid       	"AS000003B"
+			supplier   	"Use Case View::UC5: Управление корреспондентами"
+			quidu      	"UC000007")))
+	    (object Association "Clerk_ManageEmployees"
+		quid       	"AS000004"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$7"
+			quid       	"AS000004A"
+			supplier   	"Use Case View::Делопроизводитель"
+			quidu      	"A0000001")
+		    (object Role "$UNNAMED$8"
+			quid       	"AS000004B"
+			supplier   	"Use Case View::UC6: Управление сотрудниками"
+			quidu      	"UC000008")))
+	    (object Association "Manager_OverdueReport"
+		quid       	"AS000005"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$9"
+			quid       	"AS000005A"
+			supplier   	"Use Case View::Руководитель"
+			quidu      	"A0000002")
+		    (object Role "$UNNAMED$10"
+			quid       	"AS000005B"
+			supplier   	"Use Case View::UC3: Отчёт по просроченным документам"
+			quidu      	"UC000005")))
+	    (object Association "Manager_Notifications"
+		quid       	"AS000006"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$11"
+			quid       	"AS000006A"
+			supplier   	"Use Case View::Руководитель"
+			quidu      	"A0000002")
+		    (object Role "$UNNAMED$12"
+			quid       	"AS000006B"
+			supplier   	"Use Case View::UC4: Уведомления о приближающихся сроках"
+			quidu      	"UC000006")))
+	    (object Association "Controller_OverdueReport"
+		quid       	"AS000007"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$13"
+			quid       	"AS000007A"
+			supplier   	"Use Case View::Контролёр"
+			quidu      	"A0000003")
+		    (object Role "$UNNAMED$14"
+			quid       	"AS000007B"
+			supplier   	"Use Case View::UC3: Отчёт по просроченным документам"
+			quidu      	"UC000005")))
+	    (object Association "Controller_Notifications"
+		quid       	"AS000008"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$15"
+			quid       	"AS000008A"
+			supplier   	"Use Case View::Контролёр"
+			quidu      	"A0000003")
+		    (object Role "$UNNAMED$16"
+			quid       	"AS000008B"
+			supplier   	"Use Case View::UC4: Уведомления о приближающихся сроках"
+			quidu      	"UC000006")))
+	    (object Dependency "ModifyTask_includes_Reschedule"
+		quid       	"DP000001"
+		stereotype 	"include"
+		supplier   	"Use Case View::UC2.1: Перенос срока исполнения"
+		quidu      	"UC000003"
+		client     	"Use Case View::UC2: Изменение поручения"
+		client_quidu 	"UC000002")
+	    (object Dependency "ModifyTask_includes_Reassign"
+		quid       	"DP000002"
+		stereotype 	"include"
+		supplier   	"Use Case View::UC2.2: Назначение нового исполнителя"
+		quidu      	"UC000004"
+		client     	"Use Case View::UC2: Изменение поручения"
+		client_quidu 	"UC000002"))
+	logical_presentations 	(list unit_reference_list
+	    (object UseCaseDiagram "Диаграмма вариантов использования"
+		quid       	"UD000001"
+		title      	"Диаграмма вариантов использования"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "Use Case View::Делопроизводитель" @1
+			location   	(176, 576)
+			icon_style 	"Icon"
+			quidu      	"A0000001"
+			width      	210
+			height     	264)
+		    (object ClassView "Class" "Use Case View::Руководитель" @2
+			location   	(176, 1200)
+			icon_style 	"Icon"
+			quidu      	"A0000002"
+			width      	200
+			height     	264)
+		    (object ClassView "Class" "Use Case View::Контролёр" @3
+			location   	(176, 1776)
+			icon_style 	"Icon"
+			quidu      	"A0000003"
+			width      	178
+			height     	264)
+		    (object UseCaseView "UseCase" "Use Case View::UC1: Регистрация документа" @4
+			location   	(816, 288)
+			quidu      	"UC000001"
+			width      	332
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC2: Изменение поручения" @5
+			location   	(816, 528)
+			quidu      	"UC000002"
+			width      	320
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC2.1: Перенос срока исполнения" @6
+			location   	(1392, 432)
+			quidu      	"UC000003"
+			width      	348
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC2.2: Назначение нового исполнителя" @7
+			location   	(1392, 624)
+			quidu      	"UC000004"
+			width      	380
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC3: Отчёт по просроченным документам" @8
+			location   	(816, 1200)
+			quidu      	"UC000005"
+			width      	404
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC4: Уведомления о приближающихся сроках" @9
+			location   	(816, 1488)
+			quidu      	"UC000006"
+			width      	420
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC5: Управление корреспондентами" @10
+			location   	(816, 768)
+			quidu      	"UC000007"
+			width      	372
+			height     	100)
+		    (object UseCaseView "UseCase" "Use Case View::UC6: Управление сотрудниками" @11
+			location   	(816, 960)
+			quidu      	"UC000008"
+			width      	348
+			height     	100)))))
+    root_category 	(object Class_Category "Logical View"
+	quid       	"00000003"
+	exportControl 	"Public"
+	global     	TRUE
+	logical_models 	(list unit_reference_list
+	    (object Class_Category "Domain Model"
+		quid       	"PKG00001"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list
+		    (object Class "Employee"
+			quid       	"CL000001"
+			documentation 	"Сотрудник предприятия. Выступает в ролях: исполнитель задач, автор резолюций, контролёр исполнения документов. Хранит ФИО, должность, телефон и электронный адрес."
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "id"
+				quid       	"AT000001"
+				type       	"Integer"
+				exportControl 	"Public"
+				Containment 	"By Value"
+				stereotype 	"PK")
+			    (object ClassAttribute "full_name"
+				quid       	"AT000002"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "position"
+				quid       	"AT000003"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "phone"
+				quid       	"AT000004"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "email"
+				quid       	"AT000005"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")))
+		    (object Class "Correspondent"
+			quid       	"CL000002"
+			documentation 	"Корреспондент документа. Может быть внутренним (отдел, должностное лицо) или внешним (код, название организации)."
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "id"
+				quid       	"AT000010"
+				type       	"Integer"
+				exportControl 	"Public"
+				Containment 	"By Value"
+				stereotype 	"PK")
+			    (object ClassAttribute "type"
+				quid       	"AT000011"
+				type       	"CorrespondentType"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "department"
+				quid       	"AT000012"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "official_name"
+				quid       	"AT000013"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "code"
+				quid       	"AT000014"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "organization_name"
+				quid       	"AT000015"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")))
+		    (object Class "Document"
+			quid       	"CL000003"
+			documentation 	"Деловой документ (входящий, исходящий, внутренний). Фиксируется номер и дата создания документа, дата его регистрации. Содержит задачи с привязкой к исполнителям."
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "id"
+				quid       	"AT000020"
+				type       	"Integer"
+				exportControl 	"Public"
+				Containment 	"By Value"
+				stereotype 	"PK")
+			    (object ClassAttribute "number"
+				quid       	"AT000021"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "name"
+				quid       	"AT000022"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "document_type"
+				quid       	"AT000023"
+				type       	"DocumentType"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "creation_date"
+				quid       	"AT000024"
+				type       	"Date"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "registration_date"
+				quid       	"AT000025"
+				type       	"Date"
+				exportControl 	"Public"
+				Containment 	"By Value"))
+			operations 	(list Operations
+			    (object Operation "register"
+				quid       	"OP000001"
+				result     	"void"
+				exportControl 	"Public"
+				documentation 	"Регистрация документа в системе")
+			    (object Operation "get_overdue_tasks"
+				quid       	"OP000002"
+				parameters 	(list Parameters
+				    (object Parameter "date"
+					type       	"Date"))
+				result     	"List"
+				exportControl 	"Public"
+				documentation 	"Получить список просроченных задач на указанную дату")))
+		    (object Class "Task"
+			quid       	"CL000004"
+			documentation 	"Задача документа. Каждая задача имеет код, название и срок исполнения. За каждой задачей в конкретном документе закреплён один исполнитель. Каждый исполнитель может отвечать за несколько задач."
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "id"
+				quid       	"AT000030"
+				type       	"Integer"
+				exportControl 	"Public"
+				Containment 	"By Value"
+				stereotype 	"PK")
+			    (object ClassAttribute "code"
+				quid       	"AT000031"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "name"
+				quid       	"AT000032"
+				type       	"String"
+				exportControl 	"Public"
+				Containment 	"By Value")
+			    (object ClassAttribute "deadline"
+				quid       	"AT000033"
+				type       	"Date"
+				exportControl 	"Public"
+				Containment 	"By Value"))
+			operations 	(list Operations
+			    (object Operation "is_overdue"
+				quid       	"OP000003"
+				parameters 	(list Parameters
+				    (object Parameter "date"
+					type       	"Date"))
+				result     	"Boolean"
+				exportControl 	"Public"
+				documentation 	"Проверить, просрочена ли задача на указанную дату")
+			    (object Operation "reschedule"
+				quid       	"OP000004"
+				parameters 	(list Parameters
+				    (object Parameter "new_date"
+					type       	"Date"))
+				result     	"void"
+				exportControl 	"Public"
+				documentation 	"Перенести срок исполнения задачи")
+			    (object Operation "reassign"
+				quid       	"OP000005"
+				parameters 	(list Parameters
+				    (object Parameter "executor"
+					type       	"Employee"))
+				result     	"void"
+				exportControl 	"Public"
+				documentation 	"Назначить нового исполнителя")))
+		    (object Class "DocumentType"
+			quid       	"CL000005"
+			stereotype 	"enumeration"
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "INCOMING"
+				quid       	"AT000040"
+				exportControl 	"Public")
+			    (object ClassAttribute "OUTGOING"
+				quid       	"AT000041"
+				exportControl 	"Public")
+			    (object ClassAttribute "INTERNAL"
+				quid       	"AT000042"
+				exportControl 	"Public")))
+		    (object Class "CorrespondentType"
+			quid       	"CL000006"
+			stereotype 	"enumeration"
+			exportControl 	"Public"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "INTERNAL"
+				quid       	"AT000050"
+				exportControl 	"Public")
+			    (object ClassAttribute "EXTERNAL"
+				quid       	"AT000051"
+				exportControl 	"Public")))
+		    (object Association "Document_contains_Tasks"
+			quid       	"RL000001"
+			documentation 	"Документ содержит задачи (композиция). При удалении документа удаляются все его задачи."
+			roles      	(list role_list
+			    (object Role "document"
+				quid       	"RL000001A"
+				label      	"document"
+				supplier   	"Logical View::Domain Model::Document"
+				quidu      	"CL000003"
+				client_cardinality 	(value cardinality "1")
+				is_navigable 	TRUE
+				is_aggregate 	TRUE)
+			    (object Role "tasks"
+				quid       	"RL000001B"
+				label      	"tasks"
+				supplier   	"Logical View::Domain Model::Task"
+				quidu      	"CL000004"
+				client_cardinality 	(value cardinality "1..*")
+				is_navigable 	TRUE
+				Containment 	"By Value")))
+		    (object Association "Document_has_Correspondent"
+			quid       	"RL000002"
+			documentation 	"Документ связан с корреспондентом (отправитель или получатель)."
+			roles      	(list role_list
+			    (object Role "$UNNAMED$20"
+				quid       	"RL000002A"
+				supplier   	"Logical View::Domain Model::Document"
+				quidu      	"CL000003"
+				client_cardinality 	(value cardinality "0..*"))
+			    (object Role "correspondent"
+				quid       	"RL000002B"
+				label      	"correspondent"
+				supplier   	"Logical View::Domain Model::Correspondent"
+				quidu      	"CL000002"
+				client_cardinality 	(value cardinality "0..1")
+				is_navigable 	TRUE)))
+		    (object Association "Document_has_ResolutionAuthor"
+			quid       	"RL000003"
+			documentation 	"Автор резолюции документа (сотрудник предприятия)."
+			roles      	(list role_list
+			    (object Role "$UNNAMED$21"
+				quid       	"RL000003A"
+				supplier   	"Logical View::Domain Model::Document"
+				quidu      	"CL000003"
+				client_cardinality 	(value cardinality "0..*"))
+			    (object Role "resolution_author"
+				quid       	"RL000003B"
+				label      	"resolution_author"
+				supplier   	"Logical View::Domain Model::Employee"
+				quidu      	"CL000001"
+				client_cardinality 	(value cardinality "0..1")
+				is_navigable 	TRUE)))
+		    (object Association "Document_has_Controller"
+			quid       	"RL000004"
+			documentation 	"Контролёр исполнения документа (сотрудник предприятия)."
+			roles      	(list role_list
+			    (object Role "$UNNAMED$22"
+				quid       	"RL000004A"
+				supplier   	"Logical View::Domain Model::Document"
+				quidu      	"CL000003"
+				client_cardinality 	(value cardinality "0..*"))
+			    (object Role "controller"
+				quid       	"RL000004B"
+				label      	"controller"
+				supplier   	"Logical View::Domain Model::Employee"
+				quidu      	"CL000001"
+				client_cardinality 	(value cardinality "0..1")
+				is_navigable 	TRUE)))
+		    (object Association "Task_has_Executor"
+			quid       	"RL000005"
+			documentation 	"За каждой задачей в конкретном документе закреплён один исполнитель. Каждый исполнитель может отвечать за несколько задач."
+			roles      	(list role_list
+			    (object Role "$UNNAMED$23"
+				quid       	"RL000005A"
+				supplier   	"Logical View::Domain Model::Task"
+				quidu      	"CL000004"
+				client_cardinality 	(value cardinality "*"))
+			    (object Role "executor"
+				quid       	"RL000005B"
+				label      	"executor"
+				supplier   	"Logical View::Domain Model::Employee"
+				quidu      	"CL000001"
+				client_cardinality 	(value cardinality "1")
+				is_navigable 	TRUE))))
+		logical_presentations 	(list unit_reference_list
+		    (object ClassDiagram "Диаграмма классов"
+			quid       	"CD000001"
+			title      	"Диаграмма классов - Модель предметной области"
+			zoom       	100
+			max_height 	28350
+			max_width  	21600
+			origin_x   	0
+			origin_y   	0
+			items      	(list diagram_item_list
+			    (object ClassView "Class" "Logical View::Domain Model::Employee" @20
+				location   	(1680, 480)
+				quidu      	"CL000001"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"+ id : Integer"
+					"+ full_name : String"
+					"+ position : String"
+					"+ phone : String"
+					"+ email : String"))
+				width      	350
+				height     	280)
+			    (object ClassView "Class" "Logical View::Domain Model::Correspondent" @21
+				location   	(336, 480)
+				quidu      	"CL000002"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"+ id : Integer"
+					"+ type : CorrespondentType"
+					"+ department : String"
+					"+ official_name : String"
+					"+ code : String"
+					"+ organization_name : String"))
+				width      	380
+				height     	310)
+			    (object ClassView "Class" "Logical View::Domain Model::Document" @22
+				location   	(960, 480)
+				quidu      	"CL000003"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"+ id : Integer"
+					"+ number : String"
+					"+ name : String"
+					"+ document_type : DocumentType"
+					"+ creation_date : Date"
+					"+ registration_date : Date"))
+				width      	380
+				height     	350)
+			    (object ClassView "Class" "Logical View::Domain Model::Task" @23
+				location   	(960, 1056)
+				quidu      	"CL000004"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"+ id : Integer"
+					"+ code : String"
+					"+ name : String"
+					"+ deadline : Date"))
+				width      	300
+				height     	280)
+			    (object ClassView "Class" "Logical View::Domain Model::DocumentType" @24
+				location   	(336, 1056)
+				quidu      	"CL000005"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"INCOMING"
+					"OUTGOING"
+					"INTERNAL"))
+				width      	200
+				height     	180)
+			    (object ClassView "Class" "Logical View::Domain Model::CorrespondentType" @25
+				location   	(336, 1344)
+				quidu      	"CL000006"
+				compartment 	(object Compartment
+				    compartmentItems 	(list Compartment
+					"INTERNAL"
+					"EXTERNAL"))
+				width      	220
+				height     	150))))))
+    root_subsystem 	(object SubSystem "Component View"
+	quid       	"00000004"
+	physical_models 	(list unit_reference_list
+	    (object module "main.py"
+		quid       	"CM000001"
+		stereotype 	"Python Module"
+		documentation 	"Точка входа приложения, CLI-интерфейс")
+	    (object module "models.py"
+		quid       	"CM000002"
+		stereotype 	"Python Module"
+		documentation 	"ORM-модели SQLAlchemy")
+	    (object module "services.py"
+		quid       	"CM000003"
+		stereotype 	"Python Module"
+		documentation 	"Бизнес-логика: регистрация, изменение поручений")
+	    (object module "reports.py"
+		quid       	"CM000004"
+		stereotype 	"Python Module"
+		documentation 	"Модуль формирования отчётов")
+	    (object module "database.py"
+		quid       	"CM000005"
+		stereotype 	"Python Module"
+		documentation 	"Подключение к БД, управление сессиями")
+	    (object module "SQLite Database"
+		quid       	"CM000006"
+		stereotype 	"Database"
+		documentation 	"Файловая база данных SQLite")
+	    (object Dependency "main_uses_services"
+		quid       	"CD000010"
+		supplier   	"Component View::services.py"
+		quidu      	"CM000003"
+		client     	"Component View::main.py"
+		client_quidu 	"CM000001")
+	    (object Dependency "main_uses_reports"
+		quid       	"CD000011"
+		supplier   	"Component View::reports.py"
+		quidu      	"CM000004"
+		client     	"Component View::main.py"
+		client_quidu 	"CM000001")
+	    (object Dependency "services_uses_models"
+		quid       	"CD000012"
+		supplier   	"Component View::models.py"
+		quidu      	"CM000002"
+		client     	"Component View::services.py"
+		client_quidu 	"CM000003")
+	    (object Dependency "reports_uses_models"
+		quid       	"CD000013"
+		supplier   	"Component View::models.py"
+		quidu      	"CM000002"
+		client     	"Component View::reports.py"
+		client_quidu 	"CM000004")
+	    (object Dependency "models_uses_database"
+		quid       	"CD000014"
+		supplier   	"Component View::database.py"
+		quidu      	"CM000005"
+		client     	"Component View::models.py"
+		client_quidu 	"CM000002")
+	    (object Dependency "database_uses_sqlite"
+		quid       	"CD000015"
+		supplier   	"Component View::SQLite Database"
+		quidu      	"CM000006"
+		client     	"Component View::database.py"
+		client_quidu 	"CM000005"))
+	physical_presentations 	(list unit_reference_list
+	    (object Module_Diagram "Диаграмма компонентов"
+		quid       	"MD000001"
+		title      	"Диаграмма компонентов - АИС Делопроизводство"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ModView "Module" "Component View::main.py" @30
+			location   	(960, 192)
+			quidu      	"CM000001"
+			width      	300
+			height     	150)
+		    (object ModView "Module" "Component View::services.py" @31
+			location   	(576, 528)
+			quidu      	"CM000003"
+			width      	300
+			height     	150)
+		    (object ModView "Module" "Component View::reports.py" @32
+			location   	(1344, 528)
+			quidu      	"CM000004"
+			width      	300
+			height     	150)
+		    (object ModView "Module" "Component View::models.py" @33
+			location   	(960, 864)
+			quidu      	"CM000002"
+			width      	300
+			height     	150)
+		    (object ModView "Module" "Component View::database.py" @34
+			location   	(960, 1200)
+			quidu      	"CM000005"
+			width      	300
+			height     	150)
+		    (object ModView "Module" "Component View::SQLite Database" @35
+			location   	(960, 1536)
+			quidu      	"CM000006"
+			width      	300
+			height     	150)))))
+    process_structure 	(object Processes
+	quid       	"00000005"
+	ProcsNDevs 	(list
+	    (object Process_Diagram "Deployment Diagram"
+		quid       	"00000006"
+		title      	"Deployment Diagram"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    properties 	(object Properties
+	attributes 	(list Attribute_Set
+	    (object Attribute
+		tool       	"DDL"
+		name       	"Directory"
+		value      	(value Text "AUTO GENERATE"))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"DataBase"
+		value      	("DataBaseSet" 800))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"PrimaryKeyColumnName"
+		value      	"id")
+	    (object Attribute
+		tool       	"DDL"
+		name       	"PrimaryKeyColumnType"
+		value      	"INTEGER"))))

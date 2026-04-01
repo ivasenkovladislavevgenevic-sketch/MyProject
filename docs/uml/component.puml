@@ -1,0 +1,33 @@
+@startuml "Component Diagram - АИС Делопроизводство"
+
+skinparam component {
+    BackgroundColor LightYellow
+    BorderColor DarkOrange
+}
+
+package "Presentation Layer" {
+    [CLI Interface\n(main.py)] as CLI
+}
+
+package "Business Logic Layer" {
+    [Document Service\n(services.py)] as Service
+    [Report Generator\n(reports.py)] as Reports
+}
+
+package "Data Access Layer" {
+    [ORM Models\n(models.py)] as Models
+    [Database Engine\n(database.py)] as DBEngine
+}
+
+package "Data Storage" {
+    database "SQLite\nDatabase" as DB
+}
+
+CLI --> Service : регистрация,\nизменение
+CLI --> Reports : отчёты,\nуведомления
+Service --> Models : CRUD операции
+Reports --> Models : запросы
+Models --> DBEngine : сессии
+DBEngine --> DB : SQL
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml "Sequence Diagram - Формирование отчётов"
+
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Модуль\nотчётов" as Reports
+database "БД" as DB
+
+== Отчёт: Просроченные документы ==
+
+User -> UI : Запрос отчёта\n(указать дату)
+activate UI
+
+UI -> Reports : get_overdue_documents(date)
+activate Reports
+
+Reports -> DB : SELECT DISTINCT d.number, d.name,\nd.document_type\nFROM document d\nJOIN task t ON d.id = t.document_id\nWHERE t.deadline < date
+activate DB
+DB --> Reports : result_set
+deactivate DB
+
+Reports --> UI : Список просроченных документов
+deactivate Reports
+
+UI --> User : Таблица: номер, название, тип
+deactivate UI
+
+== Уведомления: Приближающиеся сроки ==
+
+User -> UI : Запрос уведомлений\n(дата, количество дней N)
+activate UI
+
+UI -> Reports : get_approaching_deadlines(date, N)
+activate Reports
+
+Reports -> DB : SELECT d.number, d.name,\nt.name, e.full_name, e.position\nFROM task t\nJOIN document d ON t.document_id = d.id\nJOIN employee e ON t.executor_id = e.id\nWHERE t.deadline BETWEEN date AND date + N
+activate DB
+DB --> Reports : result_set
+deactivate DB
+
+Reports --> UI : Список приближающихся задач
+deactivate Reports
+
+UI --> User : Таблица: документ, задача,\nисполнитель, должность
+deactivate UI
+
+@enduml
