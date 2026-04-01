@@ -1,0 +1,38 @@
+@startuml "Sequence Diagram - Регистрация документа"
+
+actor "Делопроизводитель" as Clerk
+participant "Интерфейс" as UI
+participant "Сервис\nдокументов" as Service
+database "БД" as DB
+
+Clerk -> UI : Ввод данных документа\n(номер, название, тип, даты)
+activate UI
+
+UI -> UI : Выбор корреспондента
+UI -> UI : Выбор автора резолюции
+UI -> UI : Выбор контролёра
+
+Clerk -> UI : Ввод задач\n(код, название, срок, исполнитель)
+
+UI -> Service : register_document(data)
+activate Service
+
+Service -> DB : INSERT document
+activate DB
+DB --> Service : document_id
+deactivate DB
+
+loop для каждой задачи
+    Service -> DB : INSERT task\n(document_id, code, name, deadline, executor_id)
+    activate DB
+    DB --> Service : task_id
+    deactivate DB
+end
+
+Service --> UI : Документ зарегистрирован
+deactivate Service
+
+UI --> Clerk : Подтверждение регистрации
+deactivate UI
+
+@enduml

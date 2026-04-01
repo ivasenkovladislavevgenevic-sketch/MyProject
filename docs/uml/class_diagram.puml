@@ -1,0 +1,74 @@
+@startuml "Class Diagram - АИС Делопроизводство"
+
+skinparam classAttributeIconSize 0
+
+enum DocumentType {
+    INCOMING
+    OUTGOING
+    INTERNAL
+}
+
+enum CorrespondentType {
+    INTERNAL
+    EXTERNAL
+}
+
+class Employee {
+    +id : Integer
+    +full_name : String
+    +position : String
+    +phone : String
+    +email : String
+}
+
+class Correspondent {
+    +id : Integer
+    +type : CorrespondentType
+    +department : String
+    +official_name : String
+    +code : String
+    +organization_name : String
+}
+
+class Document {
+    +id : Integer
+    +number : String
+    +name : String
+    +document_type : DocumentType
+    +creation_date : Date
+    +registration_date : Date
+    --
+    +register() : void
+    +get_overdue_tasks(date) : List<Task>
+}
+
+class Task {
+    +id : Integer
+    +code : String
+    +name : String
+    +deadline : Date
+    --
+    +is_overdue(date) : Boolean
+    +reschedule(new_date) : void
+    +reassign(executor) : void
+}
+
+Document "1" *-- "1..*" Task : содержит >
+Document "1" --> "0..1" Correspondent : корреспондент >
+Document "1" --> "0..1" Employee : автор резолюции >
+Document "1" --> "0..1" Employee : контролёр >
+Task "*" --> "1" Employee : исполнитель >
+
+note right of Correspondent
+  Внутренний: отдел + должностное лицо
+  Внешний: код + название организации
+end note
+
+note right of Employee
+  Единая сущность для ролей:
+  - Исполнитель
+  - Автор резолюции
+  - Контролёр
+end note
+
+@enduml
