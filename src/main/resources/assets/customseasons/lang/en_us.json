@@ -1,0 +1,8 @@
+{
+  "season.customseasons.spring": "Spring",
+  "season.customseasons.summer": "Summer",
+  "season.customseasons.autumn": "Autumn",
+  "season.customseasons.winter": "Winter",
+  "commands.customseasons.season.get": "Current season: %s",
+  "commands.customseasons.season.set": "Season set to: %s"
+}
